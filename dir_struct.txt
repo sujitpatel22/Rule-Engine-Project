@@ -1,0 +1,41 @@
+rule_engine_project/
+│
+├── backend/                     # Django backend directory
+│   ├── manage.py                # Django management script
+│   ├── backend/
+│   │   ├── __init__.py          # Package init file
+│   │   ├── settings.py          # Project settings
+│   │   ├── urls.py              # Main URL configurations
+│   │   ├── wsgi.py              # WSGI configuration
+│   │   ├── asgi.py              # ASGI configuration (for WebSockets)
+│   ├── rule_app/                # Django app for rule engine
+│   │   ├── __init__.py
+│   │   ├── models.py            # Models (for ASTs, Rules, Users)
+│   │   ├── views.py             # Views/Business logic (API endpoints)
+│   │   ├── serializers.py       # Serializers (for handling API data)
+│   │   ├── urls.py              # App-specific URLs
+│   │   ├── admin.py             # Django admin configurations
+│   │   ├── forms.py             # Django forms (if using forms for rule input)
+│   │   ├── tests.py             # Unit tests
+│   ├── templates/               # Django templates (used by backend)
+│   ├── static/                  # Static files (JS, CSS, images)
+│
+├── frontend/                    # Vue.js frontend directory
+│   ├── public/                  # Public assets for the frontend
+│   │   └── index.html           # Vue.js entry point
+│   ├── src/
+│   │   ├── components/          # Vue.js components (UI for rule creation, etc.)
+│   │   ├── assets/              # Frontend static assets (images, styles)
+│   │   ├── views/               # Vue.js pages (Rule creation, Rule evaluation)
+│   │   ├── App.vue              # Main Vue.js app component
+│   │   ├── main.js              # Main entry point for Vue.js
+│   │   ├── router.js            # Vue.js router configuration
+│
+├── db/                          # Database migrations and setup
+│   ├── migrations/              # Django migrations for PostgreSQL
+│
+├── docker/                      # Docker setup (optional)
+│   ├── Dockerfile               # Dockerfile for containerizing the backend
+│   ├── docker-compose.yml       # Compose file to spin up DB and app services
+│
+└── README.md                    # Project README file
