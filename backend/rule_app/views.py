@@ -44,7 +44,6 @@ def create_rule(request):
     }, status=status.HTTP_201_CREATED)
 
 
-
 def save_ast_node(node):
     if node.left:
         save_ast_node(node.left)
@@ -155,6 +154,7 @@ def combine_rules(request):
         if node:
             combined_conditions.append(node)
 
+
     # Combine all unique conditions using AND
     if combined_conditions:
         combined_root = combine_conditions(combined_conditions, operator='AND')
@@ -173,8 +173,10 @@ def combine_rules(request):
     return Response({
         'message': 'Rules combined successfully!',
         'rule_id': rule.id,
-        'ast': combined_root.to_dict()
+        'ast': combined_root.to_dict()  # Ensure this is the correct format
     }, status=status.HTTP_201_CREATED)
+
+
 
 
 def combine_conditions(conditions, operator='AND'):
@@ -239,10 +241,23 @@ def combine_ast_nodes(combined_root, new_node):
 
     return combined_root
 
+# Not needed for now
+# def evaluate_rule(ast_node, user_data):
+#     if ast_node.type == 'operand':
+#         return evaluate_condition(ast_node.value, user_data)
+#     elif ast_node.type == 'operator':
+#         left_result = evaluate_rule(ast_node.left, user_data)
+#         right_result = evaluate_rule(ast_node.right, user_data)
+#         if ast_node.value == 'AND':
+#             return left_result and right_result
+#         elif ast_node.value == 'OR':
+#             return left_result or right_result
+#     return False
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+
 
 @api_view(['POST'])
 def evaluate_rule(request):
@@ -299,6 +314,7 @@ def evaluate_ast(node, data):
         return left_result or right_result
 
     return False
+
 
 
 def evaluate_condition(condition, data):
