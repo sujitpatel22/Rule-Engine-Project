@@ -1,13 +1,15 @@
-from django.shortcuts import render
-from django.http import JsonResponse
-from rest_framework.response import Response
+
+from django.http import JsonResponse, HttpResponse
 from rest_framework.decorators import api_view
-from rest_framework import status
-from .models import *
+from rest_framework.response import Response
 from .serializers import RuleSerializer
+from django.shortcuts import render
+from collections import defaultdict
+from rest_framework import status
 from typing import Union
-import ast
+from .models import *
 from .Node import *
+import ast
 import re
 
 
@@ -29,9 +31,9 @@ def create_rule(request):
     print_ast_node(root_node)
     # Create and save the Rule object
     rule = Rule.objects.create(
-    root_node=root_node,
-    rule_string=rule_string,
-    ast_representation=str(root_node)
+        root_node=root_node,
+        rule_string=rule_string,
+        ast_representation=str(root_node)
     )
 
     rule.name = "Rule" + str(rule.id)
@@ -43,20 +45,7 @@ def create_rule(request):
         'ast': root_node.to_dict()
     }, status=status.HTTP_201_CREATED)
 
-    # except SyntaxError as e:
-    #     return Response({
-    #         "error": "Invalid rule syntax.",
-    #         "details": str(e)
-    #     }, status=status.HTTP_400_BAD_REQUEST)
 
-    # except Exception as e:
-    #     return Response({
-    #         "error": "An error occurred while creating the rule.",
-    #         "details": str(e)
-    #     }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-from collections import defaultdict
 @api_view(['POST'])
 def combine_rules(request):
     """
@@ -85,9 +74,11 @@ def combine_rules(request):
 
     for node in ast_nodes:
         if node:
-            # Add left and right conditions separately, avoiding duplicates
-            conditions[node.left.value].append(node.left)
-            conditions[node.right.value].append(node.right)
+            if node.left and node.left.value:  # Ensure left node exists and has a value
+                conditions[node.left.value].append(node.left)
+            if node.right and node.right.value:  # Ensure right node exists and has a value
+                conditions[node.right.value].append(node.right)
+
 
     # Combine unique conditions
     combined_conditions = []
@@ -116,8 +107,10 @@ def combine_rules(request):
     return Response({
         'message': 'Rules combined successfully!',
         'rule_id': rule.id,
-        'ast': combined_root.to_dict()
+        'ast': combined_root.to_dict()  # Ensure this is the correct format
     }, status=status.HTTP_201_CREATED)
+
+
 
 
 def combine_conditions(conditions, operator='AND'):
@@ -178,10 +171,20 @@ def combine_ast_nodes(combined_root, new_node):
 
     return combined_root
 
+# Not needed for now
+# def evaluate_rule(ast_node, user_data):
+#     if ast_node.type == 'operand':
+#         return evaluate_condition(ast_node.value, user_data)
+#     elif ast_node.type == 'operator':
+#         left_result = evaluate_rule(ast_node.left, user_data)
+#         right_result = evaluate_rule(ast_node.right, user_data)
+#         if ast_node.value == 'AND':
+#             return left_result and right_result
+#         elif ast_node.value == 'OR':
+#             return left_result or right_result
+#     return False
 
-from django.views.decorators.csrf import csrf_exempt
 
-@csrf_exempt
 @api_view(['POST'])
 def evaluate_rule(request):
     """
@@ -239,6 +242,7 @@ def evaluate_ast(node, data):
             return left_result or right_result
 
     return False
+
 
 
 def evaluate_condition(condition, data):
@@ -401,21 +405,3 @@ def parse_rule(rule):
     tokens = re.split(r'(\s+AND\s+|\s+OR\s+|\(|\))', rule)
     tokens = [t.strip() for t in tokens if t.strip()]
     return tokens
-
-
-def evaluate_rule(ast_node, user_data):
-    if ast_node.type == 'operand':
-        return evaluate_condition(ast_node.value, user_data)
-    elif ast_node.type == 'operator':
-        left_result = evaluate_rule(ast_node.left, user_data)
-        right_result = evaluate_rule(ast_node.right, user_data)
-        if ast_node.value == 'AND':
-            return left_result and right_result
-        elif ast_node.value == 'OR':
-            return left_result or right_result
-    return False
-
-
-def evaluate_condition(condition, user_data):
-    # Logic to evaluate each condition like "age > 30" or "department = 'Sales'"
-    pass

@@ -1,31 +1,31 @@
 <template>
   <div id="app">
-    <Header />
+    <!-- <Header /> -->
     <RuleCreation />
     <RuleCombination />
-    <RuleEvaluation />
+    <!-- <RuleEvaluation /> -->
   </div>
 </template>
 
 <script>
-import Header from './components/RuleHeader.vue';
+// import Header from './components/RuleHeader.vue';
 import RuleCreation from './components/RuleCreation.vue';
 import RuleCombination from './components/RuleCombination.vue';
-import RuleEvaluation from './components/RuleEvaluation.vue';
+// import RuleEvaluation from './components/RuleEvaluation.vue';
 
 export default {
   components: {
-    Header,
+    // Header,
     RuleCreation,
     RuleCombination,
-    RuleEvaluation,
+    // RuleEvaluation,
   },
 };
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   text-align: center;
   color: #2c3e50;
   margin-top: 30px;

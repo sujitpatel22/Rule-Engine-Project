@@ -2,17 +2,17 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import RuleCreation from './components/RuleCreation.vue';
 import RuleEvaluation from './components/RuleEvaluation.vue';
-import RuleHeader from './components/RuleHeader.vue';
+// import RuleHeader from './components/RuleHeader.vue';
 
 // Tell Vue to use the Router
 Vue.use(Router);
 
 // Define your routes
 const routes = [
-  {
-    path: '/',
-    component: RuleHeader,
-  },
+  // {
+  //   path: '/',
+  //   component: RuleHeader,
+  // },
   {
     path: '/create_rule/',
     component: RuleCreation,

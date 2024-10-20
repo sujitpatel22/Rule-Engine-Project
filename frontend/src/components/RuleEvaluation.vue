@@ -23,10 +23,11 @@ import axios from 'axios';
 
 export default {
   name: 'RuleEvaluation',
+  
   props: {
     ast: {
       type: Object,
-      required: true
+      required: false
     }
   },
   data() {
@@ -38,26 +39,22 @@ export default {
   },
   methods: {
     async evaluateRule() {
-      const csrfToken = this.getCookie('csrftoken');
       try {
-        // Parse the userData JSON string
-        // const parsedData = JSON.parse(this.userData);
+          // Parse the userData JSON string
+          const parsedData = JSON.parse(this.userData);
 
-        axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+          // console.log("ast:", this.ast);
+          // console.log("userData:", parsedData);
 
-        axios.defaults.xsrfCookieName = "csrftoken";
+          if (!this.ast || typeof this.ast !== 'object') {
+            this.evaluationMessage = 'AST is missing or invalid.';
+            return;
+          }
 
-        axios.defaults.withCredentials = true;
-
-        // Make an API call to evaluate the rule using the provided AST
-        const response = await axios.post('http://localhost:8000/evaluate_rule/', {
-          ast: this.ast,
-          data: this.userData
-        },
-          {
-            headers: {
-              'X-CSRFToken': csrfToken
-            }
+          // Make an API call to evaluate the rule using the provided AST
+          const response = await axios.post('http://localhost:8000/evaluate_rule/', {
+            ast: this.ast,
+            data: parsedData
           });
 
         // Store the result in evaluationResult
@@ -65,25 +62,11 @@ export default {
         this.evaluationMessage = response.data.message;
       } catch (error) {
         console.error('Error evaluating the rule:', error);
-        this.evaluationMessage = 'Error evaluating the rule. Please check the input JSON format.';
+        this.evaluationMessage = error.response?.data?.message || 'Error evaluating the rule. Please check the input JSON format.';
         this.evaluationResult = null;
       }
     },
 
-    getCookie(name) {
-      let cookieValue = null;
-      if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-          const cookie = cookies[i].trim();
-          if (cookie.substring(0, name.length + 1) === name + '=') {
-            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-            break;
-          }
-        }
-      }
-      return cookieValue;
-    }
   }
 };
 </script>

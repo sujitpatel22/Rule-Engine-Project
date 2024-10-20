@@ -23,8 +23,9 @@ export default {
     async createRule() {
       try {
         // Make the POST request to the Django backend
+        console.log("rule", this.rule);
         const response = await axios.post('http://localhost:8000/create_rule/', {
-          rule_string: this.rule, // Sending the rule input as payload
+          rule_string: this.rule // assuming you have a ruleString data property
         });
 
         // On successful creation of the rule

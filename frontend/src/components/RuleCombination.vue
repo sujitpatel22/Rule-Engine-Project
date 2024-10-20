@@ -5,16 +5,21 @@
             <label for="rules">Rule Strings (one per line):</label>
             <textarea v-model="ruleStrings" id="rules" placeholder="Enter rule strings here" rows="8"
                 cols="50"></textarea>
+
         </div>
 
 
         <div>
             <button @click="combineRules">Combine AST</button>
         </div>
+
+        <div v-if="combinationMessage !== null" class="result">
+            <p>{{ combinationMessage }}</p>
+        </div>
+
         <!-- Render the combined AST -->
-        <div v-if="combinedAst" class="ast-result">
-            <!-- Render the RuleEvaluation component and pass the combined AST -->
-            <RuleEvaluation v-if="combinedAst" :ast="combinedAst" />
+        <div v-if="combinedAst" >
+            <RuleEvaluation v-if="combinedAst && typeof combinedAst === 'object'" :ast="combinedAst" />
         </div>
 
     </div>
@@ -32,7 +37,8 @@ export default {
     data() {
         return {
             ruleStrings: '',
-            combinedAst: null
+            combinedAst: null, // Example data
+            combinationMessage: ""
         };
     },
     methods: {
@@ -42,9 +48,16 @@ export default {
                     rules: this.ruleStrings
                 });
 
+
+                // Store the message in combinationMessage
+                this.combinationMessage = response.data.message;
+
+
                 // Store the combined AST
                 this.combinedAst = response.data.ast;
+                console.log("Combined AST:", this.combinedAst); // Log the combined AST
             } catch (error) {
+                this.combinationMessage = "Ero=ror"
                 console.error('Error combining rules:', error);
             }
         },
