@@ -12,7 +12,6 @@ rule_engine_project/
 │   │   ├── __init__.py
 │   │   ├── models.py            # Models (for ASTs, Rules, Users)
 │   │   ├── views.py             # Views/Business logic (API endpoints)
-│   │   ├── serializers.py       # Serializers (for handling API data)
 │   │   ├── urls.py              # App-specific URLs
 │   │   ├── admin.py             # Django admin configurations
 │   │   ├── forms.py             # Django forms (if using forms for rule input)
@@ -31,11 +30,6 @@ rule_engine_project/
 │   │   ├── main.js              # Main entry point for Vue.js
 │   │   ├── router.js            # Vue.js router configuration
 │
-├── db/                          # Database migrations and setup
-│   ├── migrations/              # Django migrations for PostgreSQL
 │
-├── docker/                      # Docker setup (optional)
-│   ├── Dockerfile               # Dockerfile for containerizing the backend
-│   ├── docker-compose.yml       # Compose file to spin up DB and app services
 │
 └── README.md                    # Project README file

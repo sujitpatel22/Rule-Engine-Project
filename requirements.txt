@@ -1,0 +1,13 @@
+# Django and related packages
+Django
+djangorestframework
+
+# Database drivers
+mysqlclient  # For MySQL
+
+# CORS headers for allowing requests from different domains
+django-cors-headers
+
+# Environment variable management
+django-environ
+python-dotenv
