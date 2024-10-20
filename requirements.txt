@@ -1,5 +1,13 @@
-Django==3.2
-djangorestframework==3.12.4
-django-cors-headers==3.7.0
-djangorestframework-simplejwt==4.8.0
-pyparsing==2.4.7
+# Django and related packages
+Django
+djangorestframework
+
+# Database drivers
+psycopg2  # For PostgreSQL
+
+# CORS headers for allowing requests from different domains
+django-cors-headers
+
+# Environment variable management
+django-environ
+python-dotenv

@@ -3,6 +3,7 @@
 This is a **Rule Engine** application that allows users to define and evaluate custom rules based on user data. The application provides a simple interface to combine rules, generate an Abstract Syntax Tree (AST), and evaluate user data against these rules.
 
 ## Table of Contents
+
 - [Overview](#overview)
 - [Features](#features)
 - [Requirements](#requirements)
@@ -12,7 +13,6 @@ This is a **Rule Engine** application that allows users to define and evaluate c
   - [Evaluating Rules](#evaluating-rules)
 - [API Endpoints](#api-endpoints)
 - [Technologies Used](#technologies-used)
-- [License](#license)
 
 ## Overview
 
@@ -33,21 +33,23 @@ This project is built using **Vue.js** for the frontend and **Django (DRF)** for
 To run this project, ensure you have the following installed:
 
 ### Backend Requirements (Python/Django)
+
 - Python 3.8 or later
 - Django 3.0 or later
 - Django REST Framework (DRF)
-- Other Python dependencies (listed in `requirements.txt`)
+- PostgreSQL (instead of SQLite)
+- psycopg2 (PostgreSQL adapter for Python)
 
 To install the dependencies, run the following command:
 
 ```bash
-Copy code
 pip install -r requirements.txt
 ```
 
 ### Frontend Requirements (Vue.js)
+
 - Node.js 14 or later
-- Vue.js 3 or later
+- Vue.js 2 or later
 - Axios for API calls
 
 ## Installation
@@ -55,9 +57,10 @@ pip install -r requirements.txt
 Follow the steps below to get the project up and running on your local machine:
 
 ### Backend Setup
+
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/Rule-Engine-Project.git
+   git clone https://github.com/sonukumar1722/Rule-Engine-Project.git
    cd Rule-Engine-Project/backend
    ```
 
@@ -72,13 +75,46 @@ Follow the steps below to get the project up and running on your local machine:
    pip install -r requirements.txt
    ```
 
-4. Run the Django server:
+4. Set up **PostgreSQL**:
+
+   - Install PostgreSQL on your system if not already installed.
+   - Create a PostgreSQL database:
+     ```bash
+     sudo -u postgres psql
+     CREATE DATABASE rule_engine_db;
+     CREATE USER rule_user WITH PASSWORD 'password123';
+     ALTER ROLE rule_user SET client_encoding TO 'utf8';
+     ALTER ROLE rule_user SET default_transaction_isolation TO 'read committed';
+     ALTER ROLE rule_user SET timezone TO 'UTC';
+     GRANT ALL PRIVILEGES ON DATABASE rule_engine_db TO rule_user;
+     ```
+
+5. Update your **Django settings** to use PostgreSQL:
+
+   In `settings.py`, change the `DATABASES` configuration:
+
+   ```python
+   DATABASES = {
+       'default': {
+           'ENGINE': 'django.db.backends.postgresql',
+           'NAME': 'rule_engine_db',
+           'USER': 'rule_user',
+           'PASSWORD': 'password123',
+           'HOST': 'localhost',
+           'PORT': '5432',
+       }
+   }
+   ```
+
+6. Run the migrations and start the Django server:
    ```bash
+   python manage.py makemigrations
    python manage.py migrate
    python manage.py runserver
    ```
 
 ### Frontend Setup
+
 1. Navigate to the frontend directory:
    ```bash
    cd ../frontend
@@ -125,10 +161,11 @@ Once both the backend and frontend servers are running, you can access the appli
 2. Click **Evaluate Rule** to check if the user data satisfies the combined rules. The evaluation result will be displayed as either `True` or `False`.
 
 ### Example Workflow
+
 - Define two rules:
   - `(age > 30 AND department = 'Sales') OR (age < 25 AND department = 'Marketing')`
   - `(salary > 50000 OR experience > 5)`
-  
+
 - Combine the rules.
 - Pass user data to evaluate it against the rules.
 
@@ -139,7 +176,7 @@ The backend provides the following endpoints:
 1. **Combine Rules**
    - **Endpoint**: `/combine_rules/`
    - **Method**: `POST`
-   - **Payload**: 
+   - **Payload**:
      ```json
      {
        "rules": [
@@ -148,7 +185,7 @@ The backend provides the following endpoints:
        ]
      }
      ```
-   - **Response**: 
+   - **Response**:
      ```json
      {
        "ast": {
@@ -185,14 +222,7 @@ The backend provides the following endpoints:
 
 ## Technologies Used
 
-- **Frontend**: Vue.js 3, Axios
+- **Frontend**: Vue.js 2, Axios
 - **Backend**: Django 3.x, Django REST Framework (DRF)
-- **Database**: SQLite (or any other Django-supported database)
+- **Database**: PostgreSQL
 - **Others**: Node.js, NPM
-
-### Key Sections:
-- **Overview**: Gives a summary of the project.
-- **Features**: Highlights the key functionalities.
-- **Installation**: Detailed steps for setting up the project.
-- **Usage**: Explains how to use the application, including combining and evaluating rules.
-- **API Endpoints**: Documents the API endpoints for backend communication.
