@@ -3,7 +3,7 @@ Django
 djangorestframework
 
 # Database drivers
-mysqlclient  # For MySQL
+psycopg2  # For PostgreSQL
 
 # CORS headers for allowing requests from different domains
 django-cors-headers
