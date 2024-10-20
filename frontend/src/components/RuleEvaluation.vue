@@ -12,8 +12,8 @@
 
     <div v-if="evaluationResult !== null" class="result">
       <h3>Evaluation Result</h3>
-      <p v-if="evaluationResult">{{ evaluationMessage }}</p>
-      <p v-else>{{ evaluationMessage }}</p>
+      <p v-if="evaluationResult">{{ evaluationResult }}</p>
+      <p v-else>{{ evaluationResult }}</p>
     </div>
   </div>
 </template>
@@ -43,8 +43,7 @@ export default {
           // Parse the userData JSON string
           const parsedData = JSON.parse(this.userData);
 
-          // console.log("ast:", this.ast);
-          // console.log("userData:", parsedData);
+          console.log("ast:", this.ast);
 
           if (!this.ast || typeof this.ast !== 'object') {
             this.evaluationMessage = 'AST is missing or invalid.';
@@ -59,7 +58,10 @@ export default {
 
         // Store the result in evaluationResult
         this.evaluationResult = response.data.result;
+        console.log(this.evaluationResult);
         this.evaluationMessage = response.data.message;
+        console.log(this.evaluationMessage);
+        
       } catch (error) {
         console.error('Error evaluating the rule:', error);
         this.evaluationMessage = error.response?.data?.message || 'Error evaluating the rule. Please check the input JSON format.';

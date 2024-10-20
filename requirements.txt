@@ -11,3 +11,4 @@ django-cors-headers
 # Environment variable management
 django-environ
 python-dotenv
+

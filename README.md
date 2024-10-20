@@ -49,7 +49,7 @@ pip install -r requirements.txt
 ### Frontend Requirements (Vue.js)
 
 - Node.js 14 or later
-- Vue.js 2 or later
+- Vue.js 2
 - Axios for API calls
 
 ## Installation
@@ -60,7 +60,7 @@ Follow the steps below to get the project up and running on your local machine:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/sonukumar1722/Rule-Engine-Project.git
+   git clone https://github.com/sujitpatel22/Rule-Engine-Project.git
    cd Rule-Engine-Project/backend
    ```
 
@@ -122,7 +122,7 @@ Follow the steps below to get the project up and running on your local machine:
 
 2. Install the necessary node modules:
    ```bash
-   npm install
+   npm install / npm update
    ```
 
 3. Run the Vue development server:
@@ -139,8 +139,8 @@ Once both the backend and frontend servers are running, you can access the appli
 1. In the **Rule Combination** section, enter your rule strings in the textarea, with each rule on a new line. For example:
 
    ```
-   age > 30 AND department = 'Sales'
-   age < 25 AND department = 'Marketing'
+  - `salary > 50000 OR experience > 5`
+  - `age < 25 OR (department = 'Marketing')`
    ```
 
 2. Click **Combine AST**. The rules will be sent to the backend and combined into a unified AST. The combined AST will be displayed on the screen.
@@ -163,8 +163,8 @@ Once both the backend and frontend servers are running, you can access the appli
 ### Example Workflow
 
 - Define two rules:
-  - `(age > 30 AND department = 'Sales') OR (age < 25 AND department = 'Marketing')`
-  - `(salary > 50000 OR experience > 5)`
+  - `salary > 50000 OR experience > 5`
+  - `age < 25 OR (department = 'Marketing')`
 
 - Combine the rules.
 - Pass user data to evaluate it against the rules.

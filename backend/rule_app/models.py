@@ -21,8 +21,8 @@ class ASTNode(models.Model):
 class Rule(models.Model):
     name = models.CharField(max_length=100, null = True)
     root_node = models.OneToOneField(ASTNode, on_delete=models.CASCADE, related_name='rule', null= True)  # Add related_name for reverse access
-    rule_string = models.TextField(null = True)  # The original rule string
-    ast_representation = models.TextField(null = True)  # AST in string format
+    rule_string = models.TextField(null = True)
+    ast_representation = models.TextField(null = True)
 
     def __str__(self):
         return f"Rule(name={self.name}, rule_string={self.rule_string})"
