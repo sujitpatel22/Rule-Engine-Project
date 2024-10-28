@@ -4,6 +4,7 @@
         <div class="rule-input">
             <label for="rules">Rule Strings (one per line):</label>
             <textarea v-model="ruleStrings" id="rules" placeholder="Enter rule strings here" rows="8"></textarea>
+
         </div>
 
         <div class="button-container">
@@ -12,6 +13,7 @@
 
         <div v-if="combinationMessage !== null" class="result">
             <p class="message">{{ combinationMessage }}</p>
+
         </div>
 
         <!-- Render the combined AST -->
@@ -37,6 +39,7 @@ export default {
             ruleStrings: '',
             combinedAst: null,
             combinationMessage: null, // Initialize as null for conditional rendering
+
         };
     },
     computed: {
@@ -55,11 +58,17 @@ export default {
                 // Store the message in combinationMessage
                 this.combinationMessage = response.data.message;
 
+
+                // Store the message in combinationMessage
+                this.combinationMessage = response.data.message;
+
+
                 // Store the combined AST
                 this.combinedAst = response.data.ast;
                 console.log("Combined AST:", this.combinedAst); // Log the combined AST
             } catch (error) {
                 this.combinationMessage = "Error combining rules"; // Fix typo
+
                 console.error('Error combining rules:', error);
             }
         },
